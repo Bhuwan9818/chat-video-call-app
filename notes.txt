@@ -1,0 +1,84 @@
+# Notes on TanStack Query (React Query) vs Traditional Data Fetching (useEffect & useState)
+
+🔹 What is TanStack Query?
+TanStack Query is a powerful data-fetching library for React applications. It simplifies the process of fetching, caching, synchronizing, and updating server state in your applications.
+
+
+## Why is TanStack Query Better Than Traditional useEffect & useState?
+
+### 1. **Automatic Caching**
+- **TanStack Query:** Caches server responses automatically, reducing unnecessary network requests.
+- **Traditional:** You must manually implement caching logic.
+
+🔹 Core Concepts
+Queries (useQuery):
+
+Used to fetch data from an API.
+
+Automatically caches data and updates it when necessary.
+
+Manages loading and error states out of the box.
+
+Mutations (useMutation):
+
+Used to create, update, or delete data.
+
+Provides methods to handle success or error responses.
+
+Can be configured to update or invalidate queries after a mutation.
+
+Query Invalidation:
+
+Allows you to manually or automatically refetch data to keep it up-to-date.
+
+Useful after performing mutations to ensure the UI reflects the latest data.
+
+🔹 Key Features
+Automatic Caching: Stores fetched data and serves it from the cache when possible, reducing unnecessary network requests.
+
+Background Updates: Refetches data in the background to keep the UI in sync with the server.
+
+Stale-While-Revalidate: Serves stale data from the cache while fetching fresh data in the background.
+
+DevTools Integration: Provides a set of devtools to inspect and debug queries and mutations.
+
+🔹 Basic Usage Example
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+
+function fetchUsers() {
+  return axios.get('/api/users');
+}
+
+function UsersComponent() {
+  const { data, error, isLoading } = useQuery(['users'], fetchUsers);
+
+  if (isLoading) return 'Loading...';
+  if (error) return 'An error occurred';
+
+  return (
+    <ul>
+      {data.data.map(user => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+🔹 When to Use TanStack Query
+Fetching data from APIs.
+
+Managing server state that needs to be shared across components.
+
+Implementing features like pagination, infinite scrolling, or real-time updates.
+
+🔹 When Not to Use TanStack Query
+Managing local UI state (e.g., modal visibility, form inputs).
+
+Handling static data that doesn't change over time.
+
+🔹 Benefits Over Manual Data Fetching
+Reduces boilerplate code for data fetching and state management.
+
+Automatically handles caching, refetching, and background updates.
+
+Provides a consistent and declarative approach to data management. 
